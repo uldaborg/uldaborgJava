@@ -47,15 +47,22 @@ public class lesson5Main {
         System.arraycopy(arrThreads, h, a2, 0, h);
 
         MyThread T1 = new MyThread(a1, 0);
-        new Thread(T1).start();
+        Thread t1 = new Thread(T1);
+        t1.start();
 
         MyThread T2 = new MyThread(a2, h);
-        new Thread(T2).start();
+        Thread t2 = new Thread(T2);
+        t2.start();
 
-        System.arraycopy(a1, 0, arrThreads, 0, h);
-        System.arraycopy(a2, 0, arrThreads, h, h);
-
-        System.out.println("Время:" + (System.currentTimeMillis() - begin)) ;
+        try{
+            t1.join();
+            t2.join();
+        } catch ( InterruptedException e ) {
+            System.out.println( "Выполнение прервано!" );
+        }
+        System.arraycopy( a1, 0, arrThreads, 0, h );
+        System.arraycopy( a2, 0, arrThreads, h, h );
+        System.out.println( "Время:" + (System.currentTimeMillis() - begin) );
     }
 
     static class MyThread implements Runnable{
